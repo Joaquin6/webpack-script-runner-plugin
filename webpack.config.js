@@ -14,12 +14,17 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'test')
   },*/
   module: {
-    loaders: [
-      { test: /\.css$/, loader: 'style!css' }
-    ]
+    rules: [{
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader']
+    }]
   },
   plugins: [
-    new WebpackShellPlugin({onBuildStart:['node test.js'], onBuildEnd:['echo "Webpack End"'], safe: true, verbose: true}),
+    new WebpackShellPlugin({
+      onBuildStart: ['node test.js'],
+      onBuildEnd:['echo "Webpack End"'],
+      safe: true
+    }),
     new webpack.HotModuleReplacementPlugin()
   ]
 };

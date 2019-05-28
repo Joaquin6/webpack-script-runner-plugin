@@ -13,7 +13,8 @@ const defaultOptions = {
 export default class WebpackScriptRunnerPlugin {
   constructor(options) {
     this.options = this.validateInput(this.mergeOptions(options, defaultOptions));
-    this.plugin = { name: 'WebpackScriptRunnerPlugin' };
+    this.name = 'WebpackScriptRunnerPlugin';
+    this.plugin = { name: this.name };
   }
 
   puts(error, stdout, stderr) {
@@ -77,7 +78,7 @@ export default class WebpackScriptRunnerPlugin {
   }
 
   apply(compiler) {
-    const beforeCompile = (params, callback) => {
+    const compilationHook = (compilation, params) => {
       if (this.options.onBuildStart.length) {
         console.log('Executing pre-build scripts');
 
@@ -89,8 +90,6 @@ export default class WebpackScriptRunnerPlugin {
           this.options.onBuildStart = [];
         }
       }
-
-      callback();
     };
 
     const afterEmit = (compilation, callback) => {
@@ -120,11 +119,11 @@ export default class WebpackScriptRunnerPlugin {
     };
 
     if (compiler.hooks) {
-      compiler.hooks.beforeCompile.tapAsync(this.plugin, beforeCompile);
+      compiler.hooks.thisCompilation.tap(this.plugin, compilationHook);
       compiler.hooks.afterEmit.tapAsync(this.plugin, afterEmit);
       compiler.hooks.done.tapAsync(this.plugin, done);
     } else {
-      compiler.plugin('compilation', beforeCompile);
+      compiler.plugin('compilation', compilationHook);
       compiler.plugin('after-emit', afterEmit);
       compiler.plugin('done', done);
     }

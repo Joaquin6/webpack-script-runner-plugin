@@ -31,11 +31,14 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "chalk": "^2.4.2",
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
     "rollup": "^1.12.4",
     "rollup-plugin-babel": "3",
     "style-loader": "^0.23.1",
-    "webpack": "^4.32.2"
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
   }
 }
