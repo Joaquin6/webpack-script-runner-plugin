@@ -1,5 +1,5 @@
 const os = require('os');
-const { exec, spawn } = require('child_process');
+const {exec, spawn} = require('child_process');
 
 const defaultOptions = {
   onBuildStart: [],
@@ -14,10 +14,10 @@ export default class WebpackScriptRunnerPlugin {
   constructor(options) {
     this.options = this.validateInput(this.mergeOptions(options, defaultOptions));
     this.name = 'WebpackScriptRunnerPlugin';
-    this.plugin = { name: this.name };
+    this.plugin = {name: this.name};
   }
 
-  puts(error, stdout, stderr) {
+  puts(error) {
     if (error) {
       throw error;
     }
@@ -32,12 +32,12 @@ export default class WebpackScriptRunnerPlugin {
     if (typeof script === 'string') {
       const [command, ...args] = script.split(' ');
 
-      return { command, args };
+      return {command, args};
     }
 
-    const { command, args } = script;
+    const {command, args} = script;
 
-    return { command, args };
+    return {command, args};
   }
 
   handleScript(script) {
@@ -45,10 +45,10 @@ export default class WebpackScriptRunnerPlugin {
       return this.spreadStdoutAndStdErr(exec(script, this.puts));
     }
 
-    const { command, args } = this.serializeScript(script);
-    const proc = spawn(command, args, { stdio: 'inherit' });
+    const {command, args} = this.serializeScript(script);
+    const proc = spawn(command, args, {stdio: 'inherit'});
 
-    proc.on('close', this.puts);
+    return proc.on('close', this.puts);
   }
 
   validateInput(options) {
@@ -78,7 +78,7 @@ export default class WebpackScriptRunnerPlugin {
   }
 
   apply(compiler) {
-    const compilationHook = (compilation, params) => {
+    const compilationHook = () => {
       if (this.options.onBuildStart.length) {
         console.log('Executing pre-build scripts');
 
@@ -108,7 +108,7 @@ export default class WebpackScriptRunnerPlugin {
       callback();
     };
 
-    const done = (stats, callback) => {
+    const done = (_, callback) => {
       if (this.options.onBuildExit.length) {
         console.log('Executing additional scripts before exit');
 
@@ -116,6 +116,8 @@ export default class WebpackScriptRunnerPlugin {
           this.handleScript(this.options.onBuildExit[i]);
         }
       }
+
+      callback();
     };
 
     if (compiler.hooks) {
