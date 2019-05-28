@@ -1,10 +1,15 @@
 import babel from 'rollup-plugin-babel';
 
 export default {
-  entry: 'src/webpack-shell-plugin.js',
-  format: 'cjs',
+  input: 'src/webpack-script-runner-plugin.js',
+  output: {
+    file: 'lib/index.js',
+    format: 'cjs'
+  },
   plugins: [
-    babel()
+    babel({
+      runtimeHelpers: true,
+      exclude: 'node_modules/**'
+    })
   ],
-  dest: 'lib/index.js'
 };

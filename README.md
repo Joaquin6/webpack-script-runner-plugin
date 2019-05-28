@@ -1,6 +1,6 @@
-[![npm version](https://badge.fury.io/js/webpack-shell-plugin.svg)](https://badge.fury.io/js/webpack-shell-plugin)
-![](https://reposs.herokuapp.com/?path=1337programming/webpack-shell-plugin)
-[![npm](https://img.shields.io/npm/dm/webpack-shell-plugin.svg)]()
+[![npm version](https://badge.fury.io/js/webpack-script-runner-plugin.svg)](https://badge.fury.io/js/webpack-script-runner-plugin)
+![](https://reposs.herokuapp.com/?path=1337programming/webpack-script-runner-plugin)
+[![npm](https://img.shields.io/npm/dm/webpack-script-runner-plugin.svg)]()
 # Webpack Shell Plugin
 
 This plugin allows you to run any shell commands before or after webpack builds. This will work for both webpack and webpack-dev-server.
@@ -13,13 +13,13 @@ This plugin is meant for running simple command line executions. It is not meant
 
 ## Installation
 
-`npm install --save-dev webpack-shell-plugin`
+`npm install --save-dev webpack-script-runner-plugin`
 
 ## Setup
 In `webpack.config.js`:
 
 ```js
-const WebpackShellPlugin = require('webpack-shell-plugin');
+const WebpackShellPlugin = require('webpack-script-runner-plugin');
 
 module.exports = {
   ...
@@ -36,7 +36,7 @@ module.exports = {
 Insert into your webpack.config.js:
 
 ```js
-const WebpackShellPlugin = require('webpack-shell-plugin');
+const WebpackShellPlugin = require('webpack-script-runner-plugin');
 const path = require('path');
 
 var plugins = [];
